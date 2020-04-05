@@ -217,6 +217,19 @@ func (g *Graph) Neighbors(n Node) []Node {
 	return neighbors
 }
 
+// Edges returns a slice of edges directed outward from the given node.
+func (g *Graph) Edges(n Node) []Edge {
+	edges := make([]Edge, 0, len(n.node.edges))
+	if g.nodes[n.node.index] == n.node {
+		for _, edge := range n.node.edges {
+			e := Edge{}
+			e.Start = n
+			e.End = edge.end.container
+			edges = append(edges, e)
+		}
+	}
+}
+
 // Swaps an edge to the end of the edges slice and 'removes' it by reslicing.
 func swapNRemoveEdge(remove int, edges *[]edge) {
 	(*edges)[remove], (*edges)[len(*edges)-1] = (*edges)[len(*edges)-1], (*edges)[remove]
